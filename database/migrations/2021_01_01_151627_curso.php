@@ -16,8 +16,8 @@ class Curso extends Migration
         schema::create('cursos',function(Blueprint $table){
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->text('category');
+            $table->text('descripcion');
+            $table->text('categoria');
             $table->timestamps();
         });
     }

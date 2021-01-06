@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\StoreCurso;
+
 
 class CursoController extends Controller
 {
@@ -19,20 +21,10 @@ class CursoController extends Controller
         return view('cursos.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCurso $request)
     {
 
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'categoria' => 'require'
-        ]);
-
-        $curso = new Curso;
-        $curso->name = $request->name;
-        $curso->description = $request->descripcion;
-        $curso->category = $request->categoria;
-        $curso->save();
+        $curso = Curso::create($request->all());
 
         return Redirect()->route('cursos.show', $curso->id);
     }
@@ -49,11 +41,15 @@ class CursoController extends Controller
     }
     public function update(Request $request, Curso $curso)
     {
-        $curso->name = $request->name;
-        $curso->description = $request->descripcion;
-        $curso->category = $request->categoria;
-        $curso->save();
-        
+
+        $request->validate([
+            'name' => 'required',
+            'descripcion' => 'required',
+            'categoria' => 'required',
+        ]);
+
+        $curso->update($request->all());
+
         return Redirect()->route('cursos.show', $curso->id);
     }
 }
